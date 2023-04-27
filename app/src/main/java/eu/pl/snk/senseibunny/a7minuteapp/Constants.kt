@@ -48,7 +48,7 @@ object Constants {
 
             val highKneesRunningInPlace =
                 ExerciseModel(
-                    9, "High Knees Running In Place",
+                    9, "Running In Place",
                     R.drawable.ic_high_knees_running_in_place,
                     false,
                     false
