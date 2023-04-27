@@ -49,7 +49,7 @@
         >
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/flRestView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             style="?android:attr/progressBarStyleHorizontal"
@@ -82,6 +82,34 @@
 
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_jumping_jacks"
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        app:layout_constraintTop_toBottomOf="@+id/toolBarExercise"
+        app:layout_constraintBottom_toTopOf="@+id/tvExerciseName"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvExerciseName"
+        android:text="ExerciseName"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textSize="@dimen/default_button_text_size"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImage"
+        tools:visibility="visible"
+        />
     <FrameLayout
         android:id="@+id/flExerciseBar"
         android:layout_width="100dp"
@@ -94,10 +122,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBarExercise"
+        app:layout_constraintTop_toBottomOf="@id/tvExerciseName"
         >
 
         <ProgressBar
+
             android:id="@+id/progressBarExercise"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -116,6 +145,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:gravity="center"
+
             android:background="@drawable/item_circular_color_accent_background">
 
             <TextView

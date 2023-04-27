@@ -47,8 +47,12 @@ class ExerciseAvtivity : AppCompatActivity() {
         }
         restProgress=0
         binding?.flProgressBar?.visibility= View.VISIBLE; //GONE from UI, INVISIBLE
+        binding?.tvTitle?.visibility=View.VISIBLE
+
         binding?.flExerciseBar?.visibility=View.INVISIBLE;
-        binding?.tvTitle?.text="Get Ready"
+        binding?.tvExerciseName?.visibility=View.INVISIBLE;
+        binding?.flExerciseBar?.visibility=View.INVISIBLE;
+        binding?.ivImage?.visibility=View.INVISIBLE;
 
         setRestProgressBar()
     }
@@ -60,19 +64,25 @@ class ExerciseAvtivity : AppCompatActivity() {
 
         restProgress=0
         binding?.flProgressBar?.visibility= View.INVISIBLE; //GONE from UI, INVISIBLE
+        binding?.tvTitle?.visibility=View.INVISIBLE;
+
+        binding?.tvExerciseName?.visibility=View.VISIBLE;
         binding?.flExerciseBar?.visibility=View.VISIBLE;
-        binding?.tvTitle?.text="Exercise"
+        binding?.ivImage?.visibility=View.VISIBLE;
+
+        binding?.tvExerciseName?.text=exerciseList!![currentExercisePosition].getName()
+        binding?.ivImage?.setImageResource(exerciseList!![currentExercisePosition].getImage())
 
         setExerciseProgressBar()
     }
     private fun setRestProgressBar(){
-        binding?.progressBar?.progress= restProgress
+        binding?.flRestView?.progress= restProgress
 
         restTimer=object : CountDownTimer(5000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
-                binding?.progressBar?.progress=10-restProgress
+                binding?.flRestView?.progress=10-restProgress
                 binding?.tvTimer?.text="${10 - restProgress}"
             }
 
@@ -87,7 +97,7 @@ class ExerciseAvtivity : AppCompatActivity() {
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress= restProgress
 
-        exerciseTimer=object : CountDownTimer(30000, 1000){
+        exerciseTimer=object : CountDownTimer(6000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
@@ -96,7 +106,12 @@ class ExerciseAvtivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                Toast.makeText(this@ExerciseAvtivity,"Finished", Toast.LENGTH_LONG).show()
+                if(currentExercisePosition<exerciseList?.size!!-1){
+                    setupRestView()
+                }
+                else{
+                    Toast.makeText(this@ExerciseAvtivity,"Finished workout", Toast.LENGTH_LONG).show()
+                }
             }
         }.start()
     }
