@@ -1,5 +1,6 @@
 package eu.pl.snk.senseibunny.a7minuteapp
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -40,6 +41,7 @@ class ExerciseAvtivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupRestView(){
         if(restTimer!=null){
             restTimer?.cancel()
@@ -48,6 +50,10 @@ class ExerciseAvtivity : AppCompatActivity() {
         restProgress=0
         binding?.flProgressBar?.visibility= View.VISIBLE; //GONE from UI, INVISIBLE
         binding?.tvTitle?.visibility=View.VISIBLE
+
+        if(currentExercisePosition+1<exerciseList?.size!!){
+            binding?.tvTitle?.text="Get ready for ${exerciseList!![currentExercisePosition+1].getName()}"
+        }
 
         binding?.flExerciseBar?.visibility=View.INVISIBLE;
         binding?.tvExerciseName?.visibility=View.INVISIBLE;
@@ -78,7 +84,7 @@ class ExerciseAvtivity : AppCompatActivity() {
     private fun setRestProgressBar(){
         binding?.flRestView?.progress= restProgress
 
-        restTimer=object : CountDownTimer(5000, 1000){
+        restTimer=object : CountDownTimer(3000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
@@ -97,7 +103,7 @@ class ExerciseAvtivity : AppCompatActivity() {
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress= restProgress
 
-        exerciseTimer=object : CountDownTimer(6000, 1000){
+        exerciseTimer=object : CountDownTimer(3000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
