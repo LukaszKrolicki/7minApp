@@ -15,12 +15,17 @@ class ExerciseAvtivity : AppCompatActivity() {
     private var exerciseTimer: CountDownTimer?=null
 
     private var restProgress: Int = 0 // pauseOffset = timerDuration - time left
+
+    private var exerciseList: ArrayList<ExerciseModel>?=null
+    private var currentExercisePosition=-1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityExerciseAvtivityBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
         setSupportActionBar(binding?.toolBarExercise) // it is needed to setup toolbar
+
+        exerciseList= Constants.defaultExerciseList()
 
         //adding back to previous button
         if(supportActionBar!=null){
@@ -73,6 +78,7 @@ class ExerciseAvtivity : AppCompatActivity() {
 
             override fun onFinish() {
                 Toast.makeText(this@ExerciseAvtivity,"Finished", Toast.LENGTH_LONG).show()
+                currentExercisePosition++;
                 setupExerciseProgressBar()
             }
         }.start()
