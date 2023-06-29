@@ -4,12 +4,16 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
 import eu.pl.snk.senseibunny.a7minuteapp.databinding.ActivityExerciseAvtivityBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExerciseAvtivity : AppCompatActivity() {
+class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var binding: ActivityExerciseAvtivityBinding ?=null
 
     private var restTimer: CountDownTimer?=null
@@ -19,10 +23,13 @@ class ExerciseAvtivity : AppCompatActivity() {
 
     private var exerciseList: ArrayList<ExerciseModel>?=null
     private var currentExercisePosition=-1
+
+    private var tts: TextToSpeech?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityExerciseAvtivityBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
 
         setSupportActionBar(binding?.toolBarExercise) // it is needed to setup toolbar
 
@@ -35,6 +42,8 @@ class ExerciseAvtivity : AppCompatActivity() {
         binding?.toolBarExercise?.setNavigationOnClickListener{
             onBackPressed()
         }
+
+        tts= TextToSpeech(this, this)
 
         setupRestView()
 
@@ -75,6 +84,8 @@ class ExerciseAvtivity : AppCompatActivity() {
         binding?.tvExerciseName?.visibility=View.VISIBLE;
         binding?.flExerciseBar?.visibility=View.VISIBLE;
         binding?.ivImage?.visibility=View.VISIBLE;
+
+        speakout(exerciseList!![currentExercisePosition].getName()+"AAA")
 
         binding?.tvExerciseName?.text=exerciseList!![currentExercisePosition].getName()
         binding?.ivImage?.setImageResource(exerciseList!![currentExercisePosition].getImage())
@@ -122,6 +133,27 @@ class ExerciseAvtivity : AppCompatActivity() {
         }.start()
     }
 
+    //Text to speech
+    override fun onInit(status: Int) {
+
+        if (status == TextToSpeech.SUCCESS) {
+            // set US English as language for tts
+            for(loc in tts?.availableLanguages!!){
+                if(loc.language=="pl"){
+                    tts?.setLanguage(loc)
+                }
+            }
+
+        } else {
+            Log.e("TTS", "Initialization Failed!")
+
+        }
+    }
+
+    private fun speakout(text: String){
+        tts?.speak(text, TextToSpeech.QUEUE_FLUSH,null,"")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         binding=null
@@ -131,7 +163,14 @@ class ExerciseAvtivity : AppCompatActivity() {
             restProgress=0
         }
 
+        if(tts!=null){
+            tts?.stop()
+            tts?.shutdown()
+        }
+
     }
+
+
 
 
 }
