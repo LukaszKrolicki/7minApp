@@ -1,6 +1,8 @@
 package eu.pl.snk.senseibunny.a7minuteapp
 
 import android.annotation.SuppressLint
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -25,6 +27,9 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var currentExercisePosition=-1
 
     private var tts: TextToSpeech?= null
+
+    private var player: MediaPlayer?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityExerciseAvtivityBinding.inflate(layoutInflater)
@@ -52,6 +57,16 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     @SuppressLint("SetTextI18n")
     private fun setupRestView(){
+
+        try{
+            player=MediaPlayer.create(applicationContext, R.raw.press_start)
+            player?.setLooping(false)
+            player?.setVolume(100.0F, 100.0F)
+            player?.start()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
         if(restTimer!=null){
             restTimer?.cancel()
 
