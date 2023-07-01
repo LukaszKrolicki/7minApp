@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
+import androidx.recyclerview.widget.LinearLayoutManager
 import eu.pl.snk.senseibunny.a7minuteapp.databinding.ActivityExerciseAvtivityBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -52,7 +53,15 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         setupRestView()
 
+        setupExerciseStatusRecyclerView()
 
+    }
+
+    private fun setupExerciseStatusRecyclerView(){
+        val adapter=ExerciseStatusAdapter(exerciseList!!);
+        binding?.rvExerciseStatus?.layoutManager=LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL,false)
+        binding?.rvExerciseStatus?.adapter=adapter
     }
 
     @SuppressLint("SetTextI18n")
