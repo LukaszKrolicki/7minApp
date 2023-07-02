@@ -31,6 +31,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var player: MediaPlayer?=null
 
+    private lateinit var adapter: ExerciseStatusAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityExerciseAvtivityBinding.inflate(layoutInflater)
@@ -51,6 +52,8 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         tts= TextToSpeech(this, this)
 
+        adapter=ExerciseStatusAdapter(exerciseList!!,0);
+
         setupRestView()
 
         setupExerciseStatusRecyclerView()
@@ -58,7 +61,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun setupExerciseStatusRecyclerView(){
-        val adapter=ExerciseStatusAdapter(exerciseList!!);
+
         binding?.rvExerciseStatus?.layoutManager=LinearLayoutManager(this,
             LinearLayoutManager.HORIZONTAL,false)
         binding?.rvExerciseStatus?.adapter=adapter
@@ -87,6 +90,10 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if(currentExercisePosition+1<exerciseList?.size!!){
             binding?.tvTitle?.text="Get ready for ${exerciseList!![currentExercisePosition+1].getName()}"
         }
+
+        adapter.changePos(currentExercisePosition+1)
+        adapter.notifyDataSetChanged()
+
 
         binding?.flExerciseBar?.visibility=View.INVISIBLE;
         binding?.tvExerciseName?.visibility=View.INVISIBLE;
