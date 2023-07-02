@@ -1,6 +1,7 @@
 package eu.pl.snk.senseibunny.a7minuteapp
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,7 +52,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         binding?.toolBarExercise?.setNavigationOnClickListener{
-            onBackPressed()
+            showAcceptDialog()
         }
 
 
@@ -134,7 +136,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setRestProgressBar(){
         binding?.flRestView?.progress= restProgress
 
-        restTimer=object : CountDownTimer(3000, 1000){
+        restTimer=object : CountDownTimer(1000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
@@ -153,7 +155,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress= restProgress
 
-        exerciseTimer=object : CountDownTimer(3000, 1000){
+        exerciseTimer=object : CountDownTimer(1000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
@@ -162,7 +164,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
-                if(currentExercisePosition==1){
+                if(currentExercisePosition==4){
                     finishScreen()
                 }
                 else if(currentExercisePosition<exerciseList?.size!!-1){
@@ -200,6 +202,33 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val intent = Intent(this,EndActivity::class.java)
         startActivity(intent)
         finish()
+
+    }
+
+    private  fun showAcceptDialog(){
+        val acceptDialog= Dialog(this)
+        acceptDialog.setContentView(R.layout.back_dialog)
+
+        val yesBtn:Button=acceptDialog.findViewById(R.id.finishbutton1)
+        val noBtn:Button=acceptDialog.findViewById(R.id.finishbutton2)
+
+        yesBtn.setOnClickListener{
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            acceptDialog.dismiss()
+
+        }
+
+        noBtn.setOnClickListener{
+            acceptDialog.dismiss()
+        }
+
+        acceptDialog.show()
+    }
+
+    override fun onBackPressed() {
+        showAcceptDialog()
     }
 
     override fun onDestroy() {
@@ -211,12 +240,14 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             restProgress=0
         }
 
-        exerciseTimer=null
+        exerciseTimer?.cancel()
 
         if(tts!=null){
             tts?.stop()
             tts?.shutdown()
         }
+
+        player?.stop()
 
     }
 

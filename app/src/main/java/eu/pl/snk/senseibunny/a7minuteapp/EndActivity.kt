@@ -15,10 +15,17 @@ class EndActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= EndScreenBinding.inflate(layoutInflater)
         setContentView(binding?.root) // top element of xml file is root
-
+        setSupportActionBar(binding?.toolBar2)
         binding?.finishbutton?.setOnClickListener{
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
+        }
+
+        if(supportActionBar!=null){
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        binding?.toolBar2?.setNavigationOnClickListener{
+            onBackPressed()
         }
     }
 
