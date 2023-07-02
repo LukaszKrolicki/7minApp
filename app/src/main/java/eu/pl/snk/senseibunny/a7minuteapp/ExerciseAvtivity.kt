@@ -1,6 +1,7 @@
 package eu.pl.snk.senseibunny.a7minuteapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.pl.snk.senseibunny.a7minuteapp.databinding.ActivityExerciseAvtivityBinding
+import eu.pl.snk.senseibunny.a7minuteapp.databinding.EndScreenBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,6 +34,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var player: MediaPlayer?=null
 
     private lateinit var adapter: ExerciseStatusAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityExerciseAvtivityBinding.inflate(layoutInflater)
@@ -50,6 +53,8 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             onBackPressed()
         }
 
+
+
         tts= TextToSpeech(this, this)
 
         adapter=ExerciseStatusAdapter(exerciseList!!,0);
@@ -57,6 +62,9 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setupRestView()
 
         setupExerciseStatusRecyclerView()
+
+
+
 
     }
 
@@ -154,7 +162,10 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
-                if(currentExercisePosition<exerciseList?.size!!-1){
+                if(currentExercisePosition==1){
+                    finishScreen()
+                }
+                else if(currentExercisePosition<exerciseList?.size!!-1){
                     setupRestView()
                 }
                 else{
@@ -185,6 +196,12 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH,null,"")
     }
 
+    private fun finishScreen(){
+        val intent = Intent(this,EndActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         binding=null
@@ -193,6 +210,8 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             restTimer?.cancel()
             restProgress=0
         }
+
+        exerciseTimer=null
 
         if(tts!=null){
             tts?.stop()

@@ -22,6 +22,10 @@
             android:name=".ExerciseAvtivity"
             android:exported="false" />
         <activity
+            android:name=".EndActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
