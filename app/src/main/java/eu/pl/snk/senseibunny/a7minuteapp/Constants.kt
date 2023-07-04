@@ -1,5 +1,8 @@
 package eu.pl.snk.senseibunny.a7minuteapp
 
+import android.provider.BlockedNumberContract
+import java.text.Normalizer
+
 object Constants {
 
         fun defaultExerciseList(): ArrayList<ExerciseModel> {
@@ -73,4 +76,34 @@ object Constants {
 
             return exerciseList
         }
+
+    fun BMImodelData():ArrayList<BMImodel>{
+        val data=ArrayList<BMImodel>()
+
+        val sThiness=BMImodel(1,"Severe Thinness","Eat way more doode")
+        data.add(sThiness)
+
+        val mThiness=BMImodel(2,"Moderate Thiness", "Eat more doody")
+        data.add(mThiness)
+
+        val midThinnes=BMImodel(3,"Mild Thiness", "Eat a little more bro")
+        data.add(midThinnes)
+
+        val Normal=BMImodel(4,"Normal", "That perfect")
+        data.add(Normal)
+
+        val Overweight=BMImodel(5, "Obesity", "Eat less")
+        data.add(Overweight)
+
+        val Overweight1=BMImodel(6, "Obese class I", "Eat way less")
+        data.add(Overweight1)
+
+        val Overweight2=BMImodel(7,"Obese class II", "Eat way moreee less")
+        data.add(Overweight2)
+
+        val Overweight3=BMImodel(8, "Obese class III", "HOOOGE, EAT LEES BRO")
+        data.add(Overweight3)
+
+        return data;
+    }
 }
