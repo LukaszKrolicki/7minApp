@@ -14,8 +14,8 @@ class BmiActivity : AppCompatActivity() {
     // you use name of xml activity here
     private var binding:BmiScreenBinding?=null
 
-    private var height:String?=null
-    private var weight:String?=null
+    private var height:Double?=null
+    private var weight:Double?=null
     private var bmi: Double?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +35,38 @@ class BmiActivity : AppCompatActivity() {
             calculate()
         }
 
+        binding?.rb1?.setOnClickListener{
+            changeMetric()
+        }
+        binding?.rb2?.setOnClickListener{
+            changeMetric()
+        }
+
+
+    }
+
+    private fun changeMetric(){
+        if(binding?.rb1?.isChecked==true){
+            binding?.weight?.hint="Weight(in kg)"
+            binding?.height?.hint="Height(in cm)"
+        }else{
+            binding?.weight?.hint="Weight(in pounds)"
+            binding?.height?.hint="Height(in foot)"
+        }
     }
 
     private fun calculate(){
-        height=binding?.etText2?.text.toString()
-        weight=binding?.etText1?.text.toString()
+        height=binding?.etText2?.text.toString().toDouble()
+        weight=binding?.etText1?.text.toString().toDouble()
+
+        if(binding?.rb2?.isChecked==true){
+            height= height!! *30.48
+            weight= weight!! *0.45359237
+
+        }
 
         val sum = weight?.toDouble()?.div((height?.toDouble()!!).pow(2))?.times(10000)
-        Toast.makeText(this,height,Toast.LENGTH_LONG).show()
+
         binding?.bmiRecord?.text=sum.toString().take(5)
 
         if (sum != null) {
