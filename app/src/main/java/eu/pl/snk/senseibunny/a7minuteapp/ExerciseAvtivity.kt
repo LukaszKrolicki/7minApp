@@ -136,7 +136,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setRestProgressBar(){
         binding?.flRestView?.progress= restProgress
 
-        restTimer=object : CountDownTimer(1000, 1000){
+        restTimer=object : CountDownTimer(10000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
@@ -155,7 +155,7 @@ class ExerciseAvtivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress= restProgress
 
-        exerciseTimer=object : CountDownTimer(1000, 1000){
+        exerciseTimer=object : CountDownTimer(30000, 1000){
             override fun onTick(p0: Long) { //p0 is mili-seconds until end, on tick is called every countDown Interval
                 restProgress++
 
